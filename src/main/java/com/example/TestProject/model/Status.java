@@ -8,7 +8,7 @@ public class Status {
     @Column(name = "status_name")
     private String status_name;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id_status;
 
     private Boolean isFinal;

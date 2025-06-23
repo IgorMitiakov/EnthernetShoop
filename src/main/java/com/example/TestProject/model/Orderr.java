@@ -21,7 +21,7 @@ public class Orderr {
     private LocalDate date_order;
 
     @ManyToOne
-    @JoinColumn(name = "status_name", referencedColumnName = "statusName")
+    @JoinColumn(name = "status_name", referencedColumnName = "status_name")
     private Status status_name;
     // Getters and setters
     public Integer getIdOrder() { return id_order; }
