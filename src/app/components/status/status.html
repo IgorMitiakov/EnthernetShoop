@@ -1,0 +1,17 @@
+<h2>Список статусов</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>ID Статуса</th>
+      <th>Название Статуса</th>
+      <th>Финальный</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let s of statuses">
+      <td>{{ s.id_status }}</td>
+      <td>{{ s.status_name }}</td>
+      <td>{{ s.isFinal ? 'Да' : 'Нет' }}</td>
+    </tr>
+  </tbody>
+</table>
