@@ -16,7 +16,7 @@ public class Orderr {
 
     @ManyToOne
     @JoinColumn(name = "id_product")
-    private Product id_product;
+    private Product id;
 
     private LocalDate date_order;
 
@@ -30,8 +30,8 @@ public class Orderr {
     public Customer getCustomer() { return customer_id; }
     public void setCustomer(Customer customer) { this.customer_id = customer; }
 
-    public Product getProduct() { return id_product; }
-    public void setProduct(Product product) { this.id_product = product; }
+    public Product getProduct() { return id; }
+    public void setProduct(Product product) { this.id = product; }
 
     public LocalDate getDateOrder() { return date_order; }
     public void setDateOrder(LocalDate dateOrder) { this.date_order = dateOrder; }
