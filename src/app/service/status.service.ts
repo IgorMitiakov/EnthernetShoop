@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Status {
-  id_status: number;
-  status_name: string;
+  idStat: number;
+  statName: string;
   isFinal: boolean;
 }
 

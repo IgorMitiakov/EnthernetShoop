@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Customer {
-  customer_id: number;
-  customer_name: string;
+  custId: number;
+  custName: string;
   email: string;
-  phone_number: string;
+  phoneNumber: string;
 }
 
 @Injectable({

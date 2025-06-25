@@ -1,1 +1,19 @@
-<p>customer works!</p>
+<h2>Список покупателей</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>ID пользователя</th>
+      <th>Имя пользователя</th>
+      <th>email</th>
+      <th>Номер телефона</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of customers">
+      <td>{{ p.custId }}</td>
+      <td>{{ p.custName }}</td>
+      <td>{{ p.email }}</td>
+      <td>{{ p.phoneNumber }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,1 +1,21 @@
-<p>order works!</p>
+<h2>Список заказов</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>ID Заказа</th>
+      <th>ID Клиента</th>
+      <th>ID Продукта</th>
+      <th>Дата заказа</th>
+      <th>Статус заказа</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let o of order">
+      <td>{{ o.idOrder }}</td>
+      <td>{{ o.custId.custId }}</td>
+      <td>{{ o.product.id }}</td>
+      <td>{{ o.dateOrder }}</td>
+      <td>{{ o.statName.statName }}</td>
+    </tr>
+  </tbody>
+</table>
