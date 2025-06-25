@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CustomerController {
     private final CustomerService service;
 
@@ -32,7 +33,7 @@ public class CustomerController {
 
     @PutMapping("/{id}")
     public Customer update(@PathVariable Integer id, @RequestBody Customer updatedCustomer) {
-        updatedCustomer.setCustomerId(id);
+        updatedCustomer.setCustId(id);
         return service.save(updatedCustomer);
     }
 

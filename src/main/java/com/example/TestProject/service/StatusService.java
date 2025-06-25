@@ -17,16 +17,16 @@ public class StatusService {
         return repository.findAll();
     }
 
-    public Status findById(String statusName) {
-        return repository.findById(statusName).orElse(null);
+    public Status findById(String statName) {
+        return repository.findById(statName).orElse(null);
     }
 
     public Status save(Status status) {
         return repository.save(status);
     }
 
-    public void deleteById(String statusName) {
-        repository.deleteById(statusName);
+    public void deleteById(String statName) {
+        repository.deleteById(statName);
     }
 
 }

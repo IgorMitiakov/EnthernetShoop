@@ -8,35 +8,35 @@ import java.time.LocalDate;
 public class Orderr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_order;
+    private Integer idOrder;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customer customer_id;
+    private Customer custId;
 
     @ManyToOne
     @JoinColumn(name = "id_product")
     private Product id;
 
-    private LocalDate date_order;
+    private LocalDate dateOrder;
 
     @ManyToOne
     @JoinColumn(name = "status_name", referencedColumnName = "status_name")
-    private Status status_name;
+    private Status statName;
     // Getters and setters
-    public Integer getIdOrder() { return id_order; }
-    public void setIdOrder(Integer idOrder) { this.id_order = idOrder; }
+    public Integer getIdOrder() { return idOrder; }
+    public void setIdOrder(Integer idOrder) { this.idOrder = idOrder; }
 
-    public Customer getCustomer() { return customer_id; }
-    public void setCustomer(Customer customer) { this.customer_id = customer; }
+    public Customer getCustId() { return custId; }
+    public void setCustId(Customer custId) { this.custId = custId; }
 
     public Product getProduct() { return id; }
     public void setProduct(Product product) { this.id = product; }
 
-    public LocalDate getDateOrder() { return date_order; }
-    public void setDateOrder(LocalDate dateOrder) { this.date_order = dateOrder; }
+    public LocalDate getDateOrder() { return dateOrder; }
+    public void setDateOrder(LocalDate dateOrder) { this.dateOrder = dateOrder; }
 
-    public Status getStatus() { return status_name; }
-    public void setStatus(Status status) { this.status_name = status; }
+    public Status getStatName() { return statName; }
+    public void setStatName(Status statName) { this.statName = statName; }
 }
 

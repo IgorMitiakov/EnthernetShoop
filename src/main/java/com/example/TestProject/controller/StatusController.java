@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/statuses")
+@CrossOrigin(origins = "http://localhost:4200")
 public class StatusController {
     private final StatusService service;
     public StatusController(StatusService service) {
@@ -20,8 +21,8 @@ public class StatusController {
     }
 
     @GetMapping("/{statusName}")
-    public Status getById(@PathVariable String statusName) {
-        return service.findById(statusName);
+    public Status getById(@PathVariable String statName) {
+        return service.findById(statName);
     }
 
     @PostMapping
@@ -30,14 +31,14 @@ public class StatusController {
     }
 
     @PutMapping("/{statusName}")
-    public Status update(@PathVariable String statusName, @RequestBody Status updatedStatus) {
-        updatedStatus.setStatusName(statusName);
+    public Status update(@PathVariable String statName, @RequestBody Status updatedStatus) {
+        updatedStatus.setStatName(statName);
         return service.save(updatedStatus);
     }
 
     @DeleteMapping("/{statusName}")
-    public void delete(@PathVariable String statusName) {
-        service.deleteById(statusName);
+    public void delete(@PathVariable String statName) {
+        service.deleteById(statName);
     }
 
 }
