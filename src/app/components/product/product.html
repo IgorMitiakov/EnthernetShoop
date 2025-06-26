@@ -1,11 +1,10 @@
 <h2>Товары</h2>
 
-<!-- Форма добавления нового товара -->
 <form *ngIf="!editMode" (ngSubmit)="addProduct()">
-  <input [(ngModel)]="newProduct.id" name="id" placeholder="ID товара" required>
-  <input [(ngModel)]="newProduct.product_name" name="product_name" placeholder="Название товара" required>
+  <input [(ngModel)]="newProduct.id" name="id" placeholder="ID продукта" required>
+  <input [(ngModel)]="newProduct.product_name" name="product_name" placeholder="Название продукта" required>
   <input [(ngModel)]="newProduct.category" name="category" placeholder="Категория" required>
-  <input [(ngModel)]="newProduct.price" name="price" type="number" placeholder="Цена" required>
+  <input [(ngModel)]="newProduct.price" name="price" placeholder="Цена" type="number" required>
   <button type="submit">Добавить</button>
 </form>
 

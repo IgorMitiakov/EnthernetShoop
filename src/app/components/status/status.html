@@ -1,40 +1,36 @@
-<h2 class="table-title">Список статусов</h2>
-<table class="custom-table">
+<h2>Список статусов</h2>
+
+<!-- Форма добавления статуса -->
+<form *ngIf="!editMode" (ngSubmit)="addStatus()">
+  <input [(ngModel)]="newStatus.idStatus" name="idStatus" placeholder="ID статуса" required> <!-- Изменено idStat на idStatus -->
+  <input [(ngModel)]="newStatus.statName" name="statName" placeholder="Название статуса" required>
+  <button type="submit">Добавить</button>
+</form>
+
+<!-- Форма редактирования статуса -->
+<form *ngIf="editMode" (ngSubmit)="saveEdit()">
+  <h3>Редактирование статуса</h3>
+  <input [(ngModel)]="editStatus!.idStatus" name="editIdStatus" placeholder="ID статуса" readonly> <!-- Изменено idStat на idStatus -->
+  <input [(ngModel)]="editStatus!.statName" name="editStatName" placeholder="Название статуса" required>
+  <button type="submit">Сохранить</button>
+</form>
+
+<!-- Таблица статусов -->
+<table border="1">
   <thead>
     <tr>
-      <th>ID Статуса</th>
-      <th>Название Статуса</th>
+      <th>ID</th>
+      <th>Название</th>
       <th>Финальный</th>
-      <th>Действия</th>
+      <th colspan="2">Действия</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let s of statuses">
-      <td>{{ s.idStat }}</td>
-      <td>{{ s.statName }}</td>
-      <td>{{ s.isFinal ? 'Да' : 'Нет' }}</td>
-      <td>
-        <button (click)="editStatus(s)" class="btn-edit">Редактировать</button>
-        <button (click)="deleteStatus(s.idStat)" class="btn-delete">Удалить</button>
-      </td>
+    <tr *ngFor="let status of statuses">
+      <td>{{ status.idStatus }}</td> <!-- Изменено idStat на idStatus -->
+      <td>{{ status.statName }}</td>
+      <td><button (click)="startEdit(status)">Редактировать</button></td>
+      <td><button (click)="deleteStatus(status.idStatus)">Удалить</button></td>
     </tr>
   </tbody>
 </table>
-
-
-
-<!-- Кнопка и форма для добавления нового статуса -->
-<div class="form-container" *ngIf="!editingStatus">
-  <form [formGroup]="statusForm" (ngSubmit)="addStatus()" class="form-container">
-    <div class="form-group">
-      <label>Название статуса:</label>
-      <input formControlName="statName" required class="form-input">
-    </div>
-    <div class="form-group">
-      <label>Финальный:</label>
-      <input type="checkbox" formControlName="isFinal" class="form-checkbox">
-    </div>
-    <button type="submit" class="btn-submit">Добавить</button>
-    <button type="button" (click)="statusForm.reset()" class="btn-cancel">Очистить</button>
-  </form>
-</div>

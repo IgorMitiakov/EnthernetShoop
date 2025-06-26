@@ -1,79 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-import { StatusService, Status } from '../../service/status.service';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { Status, StatusService } from '../../service/status.service';
 
 @Component({
-  selector: 'app-status-list',
+  selector: 'app-status',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './status.html',
-  styleUrls: ['./status.component.css'],
+  imports: [CommonModule, FormsModule],
+  templateUrl: './status.html'
 })
-export class StatusListComponent implements OnInit {
+export class StatusComponent {
   statuses: Status[] = [];
-  statusForm: FormGroup;
-  editingStatus: Status | null = null;
+  newStatus: Status = { idStatus: 0, statName: ''}; 
+  editMode = false;
+  editStatus: Status | null = null;
 
-  constructor(private statusService: StatusService, private fb: FormBuilder) {
-    this.statusForm = this.fb.group({
-      statName: [''],
-      isFinal: [false]
-    });
+  constructor(private statusService: StatusService) {
+    this.loadAll();
   }
 
-  ngOnInit() {
-    this.loadStatuses();
-  }
-
-  loadStatuses() {
-    this.statusService.getAll().subscribe((data: Status[]) => {
-      this.statuses = data;
-      console.log("Statuses:", data);
-    });
+  loadAll() {
+    this.statusService.getAll().subscribe(data => this.statuses = data);
   }
 
   addStatus() {
-    const newStatus = this.statusForm.value;
-    this.statusService.createStatus(newStatus).subscribe((createdStatus: Status) => {
-      this.loadStatuses(); // Перезагрузка списка
-      this.statuses.push(createdStatus); // Добавляем новую запись с id
-      this.statusForm.reset({ statName: '', isFinal: false });
-    }, (error) => {
-      console.error('Ошибка при добавлении статуса:', error);
+    this.statusService.create(this.newStatus).subscribe(() => {
+      this.loadAll();
+      this.newStatus = { idStatus: 0, statName: ''}; 
     });
   }
 
-  onSubmit() {
-    if (this.editingStatus) {
-      const updatedStatus = { ...this.editingStatus, ...this.statusForm.value };
-      this.statusService.updateStatus(updatedStatus).subscribe(() => {
-        this.loadStatuses();
-        this.editingStatus = null;
-        this.statusForm.reset();
-      }, (error) => {
-        console.error('Ошибка при обновлении статуса:', error);
-      });
-    }
-  }
-
-  editStatus(status: Status) {
-    this.editingStatus = { ...status };
-    this.statusForm.patchValue(status);
-  }
-
   deleteStatus(id: number) {
-    if (confirm('Вы уверены, что хотите удалить этот статус?')) {
-      this.statusService.deleteStatus(id).subscribe(() => {
-        this.loadStatuses();
-      }, (error) => {
-        console.error('Ошибка при удалении статуса:', error);
-      });
-    }
+    this.statusService.delete(id).subscribe(() => this.loadAll());
   }
 
-  cancelEdit() {
-    this.editingStatus = null;
-    this.statusForm.reset();
+  startEdit(status: Status) {
+    this.editMode = true;
+    this.editStatus = { ...status };
+  }
+
+  saveEdit() {
+    if (!this.editStatus) return;
+    this.statusService.update(this.editStatus).subscribe(() => {
+      this.loadAll();
+      this.editMode = false;
+      this.editStatus = null;
+    });
   }
 }

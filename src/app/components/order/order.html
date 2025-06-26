@@ -1,21 +1,41 @@
-<h2>Список заказов</h2>
-<table border="1">
+<h2>Заказы</h2>
+
+<!-- Форма добавления заказа -->
+<form *ngIf="!editMode" (ngSubmit)="addOrder()">
+  <input [(ngModel)]="newOrder.idOrder" name="idOrder" placeholder="ID заказа" required>
+  <input [(ngModel)]="newOrder.dateOrder" name="dateOrder" placeholder="Дата (YYYY-MM-DD)" type="date" required>
+  <button type="submit">Добавить</button>
+</form>
+
+<!-- Форма редактирования -->
+<form *ngIf="editMode" (ngSubmit)="saveEdit()">
+  <input [(ngModel)]="editOrder!.idOrder" name="editIdOrder" placeholder="ID заказа" required>
+  <input [(ngModel)]="editOrder!.dateOrder" name="editDateOrder" placeholder="Дата (YYYY-MM-DD)" type="date" required>
+  <button type="submit">Сохранить</button>
+  <button type="button" (click)="editMode = false; editOrder = null">Отмена</button>
+</form>
+
+<!-- Таблица заказов -->
+<table border="1" cellpadding="5" cellspacing="0">
   <thead>
     <tr>
-      <th>ID Заказа</th>
-      <th>ID Клиента</th>
-      <th>ID Продукта</th>
-      <th>Дата заказа</th>
-      <th>Статус заказа</th>
+      <th>ID заказа</th>
+      <th>Дата</th>
+      <th>Покупатель</th>
+      <th>Продукт</th>
+      <th>Статус</th>
+      <th colspan="2">Действия</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let o of orders">
-      <td>{{ o.idOrder }}</td>
-      <td>{{ o.custId.custId }}</td>
-      <td>{{ o.product.id }}</td>
-      <td>{{ o.dateOrder }}</td>
-      <td>{{ o.statName.statName }}</td>
+    <tr *ngFor="let order of orders">
+      <td>{{ order.idOrder }}</td>
+      <td>{{ order.dateOrder }}</td>
+      <td>{{ order.custId?.custName || 'Не указан' }}</td> <!-- Исправлено с custId.custId на custId.custName -->
+      <td>{{ order.product?.product_name || 'Не указан' }}</td>
+      <td>{{ order.idStatus?.statName || 'Не указан' }}</td> <!-- Изменено с order.status.idStatus на order.idStatus.statName -->
+      <td><button (click)="startEdit(order)">Редактировать</button></td>
+      <td><button (click)="deleteOrder(order.idOrder)">Удалить</button></td>
     </tr>
   </tbody>
 </table>

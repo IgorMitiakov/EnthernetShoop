@@ -17,9 +17,8 @@ export interface Product {
 }
 
 export interface Status {
+  idStatus: number;
   statName: string;
-  idStat: number;
-  isFinal: boolean;
 }
 
 export interface Order {
@@ -27,7 +26,7 @@ export interface Order {
   custId: Customer;
   dateOrder: string;
   product: Product;
-  statName: Status;
+  idStatus: Status;
 }
 
 @Injectable({
@@ -35,8 +34,22 @@ export interface Order {
 })
 export class OrderService {
   private apiUrl = 'http://localhost:8080/api/orders';
+
   constructor(private http: HttpClient) {}
+
   getAll(): Observable<Order[]> {
     return this.http.get<Order[]>(this.apiUrl);
+  }
+
+  create(order: Order): Observable<Order> {
+    return this.http.post<Order>(this.apiUrl, order);
+  }
+
+  update(order: Order): Observable<Order> {
+    return this.http.put<Order>(`${this.apiUrl}/${order.idOrder}`, order); // Исправлено с custId на idOrder
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
