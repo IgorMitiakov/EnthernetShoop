@@ -1,21 +1,55 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductService, Product } from '../../service/product.service';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Product, ProductService } from '../../service/product.service';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './product.html',
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent {
   products: Product[] = [];
+  newProduct: Product = {
+    id: 0,
+    product_name: '',
+    category: '',
+    price: 0
+  };
+  editMode: boolean = false;
+  editProduct: Product | null = null;
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) {
+    this.loadProducts();
+  }
 
-  ngOnInit() {
-    this.productService.getAll().subscribe((data) => {
-      this.products = data; console.log("test1",data); console.log("test2",this.products);
+  loadProducts() {
+    this.productService.getAll().subscribe(data => this.products = data);
+  }
+
+  addProduct() {
+    this.productService.create(this.newProduct).subscribe(() => {
+      this.loadProducts();
+      this.newProduct = { id: 0, product_name: '', category: '', price: 0 };
+    });
+  }
+
+  deleteProduct(id: number) {
+    this.productService.delete(id).subscribe(() => this.loadProducts());
+  }
+
+  startEdit(product: Product) {
+    this.editMode = true;
+    this.editProduct = { ...product };
+  }
+
+  saveEdit() {
+    if (!this.editProduct) return;
+    this.productService.update(this.editProduct).subscribe(() => {
+      this.loadProducts();
+      this.editProduct = null;
+      this.editMode = false;
     });
   }
 }
