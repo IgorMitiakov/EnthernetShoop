@@ -9,13 +9,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './order.html',
 })
 export class OrderListComponent implements OnInit {
-  order: Order[] = [];
+  orders: Order[] = [];
 
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
     this.orderService.getAll().subscribe((data: Order[]) => {
-      this.order = data;
+      this.orders = data;
       console.log("1111", data);
     });
   }
