@@ -1,44 +1,67 @@
 package com.example.TestProject.controller;
 
 import com.example.TestProject.model.Customer;
-import com.example.TestProject.service.CustomerService;
+import com.example.TestProject.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/customers")
 @CrossOrigin(origins = "http://localhost:4200")
 public class CustomerController {
-    private final CustomerService service;
 
-    public CustomerController(CustomerService service) {
-        this.service = service;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @GetMapping
-    public List<Customer> getAll() {
-        return service.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Customer getById(@PathVariable Integer id) {
-        return service.findById(id);
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
     }
 
     @PostMapping
-    public Customer create(@RequestBody Customer customer) {
-        return service.save(customer);
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+        logger.info("Received customer for creation: {}", customer);
+        if (customer.getCustId() == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        if (customerRepository.existsById(customer.getCustId())) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        Customer saved = customerRepository.save(customer);
+        logger.info("Saved customer with ID: {}", saved.getCustId());
+        return ResponseEntity.ok(saved);
     }
 
     @PutMapping("/{id}")
-    public Customer update(@PathVariable Integer id, @RequestBody Customer updatedCustomer) {
-        updatedCustomer.setCustId(id);
-        return service.save(updatedCustomer);
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Integer id, @RequestBody Customer customer) {
+        Optional<Customer> existingCustomer = customerRepository.findById(id);
+        if (existingCustomer.isPresent()) {
+            Customer updatedCustomer = existingCustomer.get();
+            updatedCustomer.setCustName(customer.getCustName());
+            updatedCustomer.setEmail(customer.getEmail());
+            updatedCustomer.setPhoneNumber(customer.getPhoneNumber());
+            return ResponseEntity.ok(customerRepository.save(updatedCustomer));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        service.deleteById(id);
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Integer id) {
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

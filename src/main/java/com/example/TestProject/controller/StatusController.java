@@ -1,44 +1,55 @@
 package com.example.TestProject.controller;
 
 import com.example.TestProject.model.Status;
-import com.example.TestProject.service.StatusService;
+import com.example.TestProject.repository.StatusRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/statuses")
 @CrossOrigin(origins = "http://localhost:4200")
 public class StatusController {
-    private final StatusService service;
-    public StatusController(StatusService service) {
-        this.service = service;
-    }
+
+    @Autowired
+    private StatusRepository statusRepository;
 
     @GetMapping
-    public List<Status> getAll() {
-        return service.findAll();
-    }
-
-    @GetMapping("/{statusName}")
-    public Status getById(@PathVariable String statName) {
-        return service.findById(statName);
+    public List<Status> getAllStatuses() {
+        return statusRepository.findAll();
     }
 
     @PostMapping
-    public Status create(@RequestBody Status status) {
-        return service.save(status);
+    public ResponseEntity<Status> createStatus(@RequestBody Status status) {
+
+        status.setIdStat(null);
+        Status saved = statusRepository.save(status);
+        return ResponseEntity.ok(saved);
     }
 
-    @PutMapping("/{statusName}")
-    public Status update(@PathVariable String statName, @RequestBody Status updatedStatus) {
-        updatedStatus.setStatName(statName);
-        return service.save(updatedStatus);
+    /*@PutMapping("/{id}")
+    public ResponseEntity<Status> updateStatus(@PathVariable Integer id, @RequestBody Status status) {
+        Optional<Status> existingStatus = statusRepository.findById(id);
+        if (existingStatus.isPresent()) {
+            Status updatedStatus = existingStatus.get();
+            updatedStatus.setStatName(status.getStatName());
+            updatedStatus.setIsFinal(status.getIsFinal());
+            return ResponseEntity.ok(statusRepository.save(updatedStatus));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping("/{statusName}")
-    public void delete(@PathVariable String statName) {
-        service.deleteById(statName);
-    }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStatus(@PathVariable Integer id) {
+        if (statusRepository.existsById(id)) {
+            statusRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }*/
 }

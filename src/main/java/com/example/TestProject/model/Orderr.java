@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Entity
 public class Orderr {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer idOrder;
 
     @ManyToOne
@@ -23,7 +23,7 @@ public class Orderr {
     @ManyToOne
     @JoinColumn(name = "status_name", referencedColumnName = "status_name")
     private Status statName;
-    // Getters and setters
+
     public Integer getIdOrder() { return idOrder; }
     public void setIdOrder(Integer idOrder) { this.idOrder = idOrder; }
 

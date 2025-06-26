@@ -6,15 +6,15 @@ import jakarta.persistence.*;
 @Entity
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
+    @Column(name = "customer_id")
     private Integer custId;
 
     @Column(name = "customer_name")
-    @JsonProperty("custName")
+
     private String custName;
     private String email;
     private String phoneNumber;
+
     public Integer getCustId() { return custId; }
     public void setCustId(Integer custId) { this.custId = custId; }
 
@@ -27,4 +27,3 @@ public class Customer {
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 }
-

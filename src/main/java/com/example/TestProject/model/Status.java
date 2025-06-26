@@ -16,7 +16,7 @@ public class Status {
 
     @JsonProperty("isFinal")
     private Boolean isFinal;
-    // Getters and setters
+
     public String getStatName() { return statName; }
     public void setStatName(String statName) { this.statName = statName; }
 
