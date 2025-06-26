@@ -35,6 +35,15 @@ export class CustomerComponent {
       this.newCustomer = { custId: 0, custName: '', email: '', phoneNumber: '' };
     });
   }
+  
+  searchId: number = 0;
+  foundCustomer: Customer | null = null;
+  searchCustomer() {
+    this.customerService.getById(this.searchId).subscribe({
+      next: (data) => this.foundCustomer = data,
+      error: () => this.foundCustomer = null
+    });
+  }
 
   deleteCustomer(id: number) {
     this.customerService.delete(id).subscribe(() => this.loadCustomers());

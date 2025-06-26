@@ -28,6 +28,15 @@ export class ProductListComponent {
     this.productService.getAll().subscribe(data => this.products = data);
   }
 
+    searchId: number = 0;
+    foundProduct: Product | null = null;
+    searchProduct() {
+      this.productService.getById(this.searchId).subscribe({
+        next: (data) => this.foundProduct = data,
+        error: () => this.foundProduct = null
+      });
+    }
+
   addProduct() {
     this.productService.create(this.newProduct).subscribe(() => {
       this.loadProducts();

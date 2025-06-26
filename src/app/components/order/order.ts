@@ -58,6 +58,15 @@ export class OrderComponent {
     this.statusService.getAll().subscribe(data => this.statuses = data);
   }
 
+  searchId: number = 0;
+  foundOrder: Order | null = null;
+  searchOrder() {
+    this.orderService.getById(this.searchId).subscribe({
+      next: (data) => this.foundOrder = data,
+      error: () => this.foundOrder = null
+    });
+  }
+
   addOrder() {
     this.orderService.create(this.newOrder).subscribe(() => {
       this.loadAll();

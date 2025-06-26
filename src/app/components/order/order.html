@@ -1,13 +1,30 @@
 <h2>Заказы</h2>
 
-<!-- Форма добавления заказа -->
+
 <form *ngIf="!editMode" (ngSubmit)="addOrder()">
   <input [(ngModel)]="newOrder.idOrder" name="idOrder" placeholder="ID заказа" required>
   <input [(ngModel)]="newOrder.dateOrder" name="dateOrder" placeholder="Дата (YYYY-MM-DD)" type="date" required>
+  <input [(ngModel)]="newOrder.custId.custId" name="custId" placeholder="ID клиента" required>
+  <input [(ngModel)]="newOrder.product.id" name="id" placeholder="ID продукта" required>
+  <input [(ngModel)]="newOrder.idStatus.idStatus" name="idStatus" placeholder="ID статуса" required>
   <button type="submit">Добавить</button>
 </form>
 
-<!-- Форма редактирования -->
+<h2>Поиск заказа</h2>
+
+<input [(ngModel)]="searchId" name="searchId" placeholder="Введите ID заказа" type="number" required>
+<button (click)="searchOrder()">Найти</button>
+
+<div *ngIf="foundOrder">
+  <h3>Найденный заказ:</h3>
+  <p><strong>ID заказа:</strong> {{ foundOrder.idOrder }}</p>
+  <p><strong>Дата заказа:</strong> {{ foundOrder.dateOrder }}</p>
+  <p><strong>ID клиента:</strong> {{ foundOrder.custId?.custId || 'Не указан' }}</p>
+  <p><strong>ID продукта:</strong> {{ foundOrder.product?.id || 'Не указан' }}</p>
+  <p><strong>ID статуса:</strong> {{ foundOrder.idStatus?.idStatus || 'Не указан' }}</p>
+</div>
+
+
 <form *ngIf="editMode" (ngSubmit)="saveEdit()">
   <input [(ngModel)]="editOrder!.idOrder" name="editIdOrder" placeholder="ID заказа" required>
   <input [(ngModel)]="editOrder!.dateOrder" name="editDateOrder" placeholder="Дата (YYYY-MM-DD)" type="date" required>
@@ -15,7 +32,7 @@
   <button type="button" (click)="editMode = false; editOrder = null">Отмена</button>
 </form>
 
-<!-- Таблица заказов -->
+
 <table border="1" cellpadding="5" cellspacing="0">
   <thead>
     <tr>
@@ -28,14 +45,14 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let order of orders">
-      <td>{{ order.idOrder }}</td>
-      <td>{{ order.dateOrder }}</td>
-      <td>{{ order.custId?.custName || 'Не указан' }}</td> <!-- Исправлено с custId.custId на custId.custName -->
-      <td>{{ order.product?.product_name || 'Не указан' }}</td>
-      <td>{{ order.idStatus?.statName || 'Не указан' }}</td> <!-- Изменено с order.status.idStatus на order.idStatus.statName -->
-      <td><button (click)="startEdit(order)">Редактировать</button></td>
-      <td><button (click)="deleteOrder(order.idOrder)">Удалить</button></td>
-    </tr>
-  </tbody>
+  <tr *ngFor="let order of orders">
+    <td>{{ order.idOrder }}</td>
+    <td>{{ order.dateOrder }}</td>
+    <td>{{ order.custId?.custId || 'Не указан' }}</td> <!-- Изменено с custName на custId -->
+    <td>{{ order.product?.id || 'Не указан' }}</td> <!-- Изменено с product_name на id -->
+    <td>{{ order.idStatus?.idStatus || 'Не указан' }}</td> <!-- Изменено с statName на idStatus -->
+    <td><button (click)="startEdit(order)">Редактировать</button></td>
+    <td><button (click)="deleteOrder(order.idOrder)">Удалить</button></td>
+  </tr>
+</tbody>
 </table>

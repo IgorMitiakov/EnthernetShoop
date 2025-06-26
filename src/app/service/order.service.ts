@@ -45,8 +45,12 @@ export class OrderService {
     return this.http.post<Order>(this.apiUrl, order);
   }
 
+  getById(id: number): Observable<Order> {
+      return this.http.get<Order>(`${this.apiUrl}/${id}`);
+    }
+
   update(order: Order): Observable<Order> {
-    return this.http.put<Order>(`${this.apiUrl}/${order.idOrder}`, order); // Исправлено с custId на idOrder
+    return this.http.put<Order>(`${this.apiUrl}/${order.idOrder}`, order); 
   }
 
   delete(id: number): Observable<void> {

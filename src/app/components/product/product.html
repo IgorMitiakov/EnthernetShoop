@@ -8,7 +8,20 @@
   <button type="submit">Добавить</button>
 </form>
 
-<!-- Форма редактирования товара -->
+  <h2>Поиск продукта</h2>
+
+<input [(ngModel)]="searchId" name="searchId" placeholder="Введите ID продукта" type="number" required>
+<button (click)="searchProduct()">Найти</button>
+  <div *ngIf="foundProduct">
+    <h3>Найденный продукт:</h3>
+    <p><strong>ID:</strong> {{ foundProduct.id }}</p>
+    <p><strong>Название:</strong> {{ foundProduct.product_name }}</p>
+    <p><strong>Категория:</strong> {{ foundProduct.category }}</p>
+    <p><strong>Цена:</strong> {{ foundProduct.price }}</p>
+  </div>
+
+
+  
 <form *ngIf="editMode" (ngSubmit)="saveEdit()">
   <h3>Редактирование товара</h3>
   <input [(ngModel)]="editProduct!.product_name" name="editProductName" placeholder="Название товара" required>

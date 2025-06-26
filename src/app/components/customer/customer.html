@@ -16,6 +16,19 @@
   <button type="submit">Сохранить</button>
 </form>
 
+<h2>Поиск клиента</h2>
+
+<input [(ngModel)]="searchId" name="searchId" placeholder="Введите ID клиента" type="number" required>
+<button (click)="searchCustomer()">Найти</button>
+
+<div *ngIf="foundCustomer">
+  <h3>Найденный клиент:</h3>
+  <p><strong>ID:</strong> {{ foundCustomer.custId }}</p>
+  <p><strong>Имя:</strong> {{ foundCustomer.custName }}</p>
+  <p><strong>Email:</strong> {{ foundCustomer.email }}</p>
+  <p><strong>Телефон:</strong> {{ foundCustomer.phoneNumber }}</p>
+</div>
+
 <table border="1">
   <thead>
     <tr>

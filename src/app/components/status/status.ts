@@ -30,6 +30,15 @@ export class StatusComponent {
     });
   }
 
+    searchId: number = 0;
+    foundStatus: Status | null = null;
+    searchStatus() {
+      this.statusService.getById(this.searchId).subscribe({
+        next: (data) => this.foundStatus = data,
+        error: () => this.foundStatus = null
+      });
+    }
+
   deleteStatus(id: number) {
     this.statusService.delete(id).subscribe(() => this.loadAll());
   }

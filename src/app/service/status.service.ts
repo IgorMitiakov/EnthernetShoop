@@ -19,6 +19,10 @@ export class StatusService {
     return this.http.get<Status[]>(this.apiUrl);
   }
 
+  getById(id: number): Observable<Status> {
+      return this.http.get<Status>(`${this.apiUrl}/${id}`);
+    }
+
   create(status: Status): Observable<Status> {
     return this.http.post<Status>(this.apiUrl, status);
   }
