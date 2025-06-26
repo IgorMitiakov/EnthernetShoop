@@ -1,5 +1,6 @@
 package com.example.TestProject.service;
 
+import com.example.TestProject.model.Customer;
 import com.example.TestProject.model.Status;
 import com.example.TestProject.repository.StatusRepository;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,10 @@ public class StatusService {
 
     public List<Status> findAll() {
         return repository.findAll();
+    }
+
+    public Status getById(Integer id) {
+        return repository.findById(id).orElseThrow();
     }
 
     public Status findById(Integer idStat) {

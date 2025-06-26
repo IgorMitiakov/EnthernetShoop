@@ -1,7 +1,9 @@
 package com.example.TestProject.controller;
 
+import com.example.TestProject.model.Customer;
 import com.example.TestProject.model.Orderr;
 import com.example.TestProject.repository.OrderrRepository;
+import com.example.TestProject.service.OrderrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ public class OrderrController {
     @Autowired
     private OrderrRepository orderrRepository;
 
+    @Autowired
+    private OrderrService orderrService;
+
     @GetMapping
     public List<Orderr> getAllOrders() {
         return orderrRepository.findAll();
@@ -31,6 +36,13 @@ public class OrderrController {
             return ResponseEntity.badRequest().body(null);
         }
         return ResponseEntity.ok(orderrRepository.save(orderr));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Orderr> getById(@PathVariable Integer id) {
+        Orderr orderr = orderrService.getById(id);
+        return ResponseEntity.ok(orderr);
+
     }
 
     @PutMapping("/{id}")

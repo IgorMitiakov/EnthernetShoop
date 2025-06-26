@@ -1,5 +1,6 @@
 package com.example.TestProject.service;
 
+import com.example.TestProject.model.Customer;
 import com.example.TestProject.model.Product;
 import com.example.TestProject.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ public class ProductService {
 
     public Product findById(Integer id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public Product getById(Integer id) {
+        return repository.findById(id).orElseThrow();
     }
 
     public Product save(Product product) {

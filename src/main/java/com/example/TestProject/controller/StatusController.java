@@ -1,7 +1,9 @@
 package com.example.TestProject.controller;
 
+import com.example.TestProject.model.Product;
 import com.example.TestProject.model.Status;
 import com.example.TestProject.repository.StatusRepository;
+import com.example.TestProject.service.StatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class StatusController {
 
     @Autowired
     private StatusRepository statusRepository;
+
+    @Autowired
+    private StatusService statusService;
 
     @GetMapping
     public List<Status> getAllStatuses() {
@@ -50,6 +55,13 @@ public class StatusController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Status> getById(@PathVariable Integer id) {
+        Status status = statusService.getById(id);
+        return ResponseEntity.ok(status);
+
     }
 
     @DeleteMapping("/{id}")

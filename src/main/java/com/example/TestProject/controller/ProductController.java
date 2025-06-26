@@ -1,8 +1,10 @@
 package com.example.TestProject.controller;
 
+import com.example.TestProject.model.Customer;
 import com.example.TestProject.model.Product;
 
 import com.example.TestProject.repository.ProductRepository;
+import com.example.TestProject.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductService productService;
+
     @GetMapping
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -42,6 +47,14 @@ public class ProductController {
         logger.info("Saved product with ID: {}", saved.getId());
         return ResponseEntity.ok(saved);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getById(@PathVariable Integer id) {
+        Product product = productService.getById(id);
+        return ResponseEntity.ok(product);
+
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {

@@ -2,6 +2,7 @@ package com.example.TestProject.controller;
 
 import com.example.TestProject.model.Customer;
 import com.example.TestProject.repository.CustomerRepository;
+import com.example.TestProject.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerService customerService;
+
 
     @GetMapping
     public List<Customer> getAllCustomers() {
@@ -53,6 +57,12 @@ public class CustomerController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getById(@PathVariable Integer id) {
+        Customer customer = customerService.getById(id);
+        return ResponseEntity.ok(customer);
+
     }
 
     @DeleteMapping("/{id}")

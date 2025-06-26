@@ -1,5 +1,6 @@
 package com.example.TestProject.service;
 
+import com.example.TestProject.model.Customer;
 import com.example.TestProject.model.Orderr;
 import com.example.TestProject.repository.OrderrRepository;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,10 @@ public class OrderrService {
 
     public List<Orderr> findAll() {
         return repository.findAll();
+    }
+
+    public Orderr getById(Integer id) {
+        return repository.findById(id).orElseThrow();
     }
 
     public Orderr findById(Integer id) {

@@ -22,6 +22,10 @@ public class CustomerService {
         return repository.findById(id).orElse(null);
     }
 
+    public Customer getById(Integer id) {
+        return repository.findById(id).orElseThrow();
+    }
+
     public Customer save(Customer customer) {
         return repository.save(customer);
     }
