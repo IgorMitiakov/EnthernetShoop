@@ -20,9 +20,9 @@ public class Orderr {
 
     private LocalDate dateOrder;
 
-    @ManyToOne
-    @JoinColumn(name = "status_name", referencedColumnName = "status_name")
-    private Status statName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_status")
+    private Status idStatus;
 
     public Integer getIdOrder() { return idOrder; }
     public void setIdOrder(Integer idOrder) { this.idOrder = idOrder; }
@@ -36,7 +36,7 @@ public class Orderr {
     public LocalDate getDateOrder() { return dateOrder; }
     public void setDateOrder(LocalDate dateOrder) { this.dateOrder = dateOrder; }
 
-    public Status getStatName() { return statName; }
-    public void setStatName(Status statName) { this.statName = statName; }
+    public Status getIdStatus() { return idStatus; }
+    public void setIdStatus(Status idStatus) { this.idStatus = idStatus; }
 }
 

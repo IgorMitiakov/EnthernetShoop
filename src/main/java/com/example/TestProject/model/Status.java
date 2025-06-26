@@ -5,25 +5,19 @@ import jakarta.persistence.*;
 @Entity
 public class Status {
     @Id
+    @Column(name = "id_status")
+    private Integer idStatus;
+
+
+
     @Column(name = "status_name")
-    @JsonProperty("statName")
     private String statName;
 
 
-    @Column(name = "id_status")
-    @JsonProperty("idStat")
-    private Integer idStat;
-
-    @JsonProperty("isFinal")
-    private Boolean isFinal;
-
+    public Integer getIdStatus() { return idStatus; }
+    public void setIdStatus(Integer idStatus) { this.idStatus = idStatus; }
     public String getStatName() { return statName; }
     public void setStatName(String statName) { this.statName = statName; }
 
-    public Integer getIdStat() { return idStat; }
-    public void setIdStat(Integer idStat) { this.idStat = idStat; }
-
-    public Boolean getIsFinal() { return isFinal; }
-    public void setIsFinal(Boolean isFinal) { this.isFinal = isFinal; }
 }
 
