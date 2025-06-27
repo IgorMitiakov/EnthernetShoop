@@ -1,58 +1,160 @@
-<h2>Заказы</h2>
+<div class="container">
+  <h2 class="title">Заказы</h2>
 
 
-<form *ngIf="!editMode" (ngSubmit)="addOrder()">
-  <input [(ngModel)]="newOrder.idOrder" name="idOrder" placeholder="ID заказа" required>
-  <input [(ngModel)]="newOrder.dateOrder" name="dateOrder" placeholder="Дата (YYYY-MM-DD)" type="date" required>
-  <input [(ngModel)]="newOrder.custId.custId" name="custId" placeholder="ID клиента" required>
-  <input [(ngModel)]="newOrder.product.id" name="id" placeholder="ID продукта" required>
-  <input [(ngModel)]="newOrder.idStatus.idStatus" name="idStatus" placeholder="ID статуса" required>
-  <button type="submit">Добавить</button>
-</form>
+  <form *ngIf="!editMode" (ngSubmit)="addOrder()" class="form">
+    <input [(ngModel)]="newOrder.idOrder" name="idOrder" placeholder="ID заказа" required>
+    <input [(ngModel)]="newOrder.dateOrder" name="dateOrder" placeholder="Дата" type="date" required>
+    <input [(ngModel)]="newOrder.custId.custId" name="custId" placeholder="ID клиента" required>
+    <input [(ngModel)]="newOrder.product.id" name="id" placeholder="ID продукта" required>
+    <input [(ngModel)]="newOrder.idStatus.idStatus" name="idStatus" placeholder="ID статуса" required>
+    <button type="submit" class="btn">Добавить</button>
+  </form>
 
-<h2>Поиск заказа</h2>
+  <form *ngIf="editMode" (ngSubmit)="saveEdit()" class="form edit-form">
+    <h3>Редактирование заказа</h3>
+    <input [(ngModel)]="editOrder!.idOrder" name="editIdOrder" placeholder="ID заказа" required>
+    <input [(ngModel)]="editOrder!.dateOrder" name="editDateOrder" type="date" required>
+    <button type="submit" class="btn">Сохранить</button>
+    <button type="button" (click)="editMode = false; editOrder = null" class="btn back">Отмена</button>
+  </form>
 
-<input [(ngModel)]="searchId" name="searchId" placeholder="Введите ID заказа" type="number" required>
-<button (click)="searchOrder()">Найти</button>
 
-<div *ngIf="foundOrder">
-  <h3>Найденный заказ:</h3>
-  <p><strong>ID заказа:</strong> {{ foundOrder.idOrder }}</p>
-  <p><strong>Дата заказа:</strong> {{ foundOrder.dateOrder }}</p>
-  <p><strong>ID клиента:</strong> {{ foundOrder.custId?.custId || 'Не указан' }}</p>
-  <p><strong>ID продукта:</strong> {{ foundOrder.product?.id || 'Не указан' }}</p>
-  <p><strong>ID статуса:</strong> {{ foundOrder.idStatus?.idStatus || 'Не указан' }}</p>
+  <div class="search-block">
+    <h3>Поиск заказа</h3>
+    <input [(ngModel)]="searchId" name="searchId" placeholder="Введите ID заказа" type="number" required>
+    <button (click)="searchOrder()" class="btn">Найти</button>
+  </div>
+
+
+  <div *ngIf="foundOrder" class="result-block">
+    <h4>Найденный заказ:</h4>
+    <p><strong>ID заказа:</strong> {{ foundOrder.idOrder }}</p>
+    <p><strong>Дата:</strong> {{ foundOrder.dateOrder }}</p>
+    <p><strong>ID клиента:</strong> {{ foundOrder.custId?.custId || 'Не указан' }}</p>
+    <p><strong>ID продукта:</strong> {{ foundOrder.product?.id || 'Не указан' }}</p>
+    <p><strong>ID статуса:</strong> {{ foundOrder.idStatus?.idStatus || 'Не указан' }}</p>
+  </div>
+
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>ID заказа</th>
+        <th>Дата</th>
+        <th>Клиент</th>
+        <th>Продукт</th>
+        <th>Статус</th>
+        <th colspan="2">Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.idOrder }}</td>
+        <td>{{ order.dateOrder }}</td>
+        <td>{{ order.custId?.custId || 'Не указан' }}</td>
+        <td>{{ order.product?.id || 'Не указан' }}</td>
+        <td>{{ order.idStatus?.idStatus || 'Не указан' }}</td>
+        <td><button (click)="startEdit(order)" class="btn edit">Редактировать</button></td>
+        <td><button (click)="deleteOrder(order.idOrder)" class="btn delete">Удалить</button></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 
-<form *ngIf="editMode" (ngSubmit)="saveEdit()">
-  <input [(ngModel)]="editOrder!.idOrder" name="editIdOrder" placeholder="ID заказа" required>
-  <input [(ngModel)]="editOrder!.dateOrder" name="editDateOrder" placeholder="Дата (YYYY-MM-DD)" type="date" required>
-  <button type="submit">Сохранить</button>
-  <button type="button" (click)="editMode = false; editOrder = null">Отмена</button>
-</form>
+<style>
+  .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f8fbff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    font-family: Arial, sans-serif;
+  }
 
+  h2, h3 {
+    color: #2c3e50;
+  }
 
-<table border="1" cellpadding="5" cellspacing="0">
-  <thead>
-    <tr>
-      <th>ID заказа</th>
-      <th>Дата</th>
-      <th>Покупатель</th>
-      <th>Продукт</th>
-      <th>Статус</th>
-      <th colspan="2">Действия</th>
-    </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let order of orders">
-    <td>{{ order.idOrder }}</td>
-    <td>{{ order.dateOrder }}</td>
-    <td>{{ order.custId?.custId || 'Не указан' }}</td> <!-- Изменено с custName на custId -->
-    <td>{{ order.product?.id || 'Не указан' }}</td> <!-- Изменено с product_name на id -->
-    <td>{{ order.idStatus?.idStatus || 'Не указан' }}</td> <!-- Изменено с statName на idStatus -->
-    <td><button (click)="startEdit(order)">Редактировать</button></td>
-    <td><button (click)="deleteOrder(order.idOrder)">Удалить</button></td>
-  </tr>
-</tbody>
-</table>
+  .form-box {
+    background: #ffffff;
+    padding: 16px;
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .btn {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 16px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .btn:hover {
+    background-color: #2980b9;
+  }
+
+  .btn.edit {
+    background-color: #f39c12;
+  }
+
+  .btn.edit:hover {
+    background-color: #e67e22;
+  }
+
+  .btn.delete {
+    background-color: #e74c3c;
+  }
+
+  .btn.delete:hover {
+    background-color: #c0392b;
+  }
+
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+  }
+
+  .product-table th, .product-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .product-table th {
+    background-color: #ecf0f1;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .search-result {
+    margin-top: 15px;
+    background: #e0f7fa;
+    padding: 10px;
+    border-radius: 6px;
+  }
+</style>

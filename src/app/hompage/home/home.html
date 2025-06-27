@@ -1,9 +1,51 @@
-<h1>Добро пожаловать на главную страницу</h1>
-  <nav>
-    <ul>
-      <li><a routerLink="/products">Перейти к продуктам</a></li>
-      <li><a routerLink="/statuses">Перейти к статусам</a></li>
-      <li><a routerLink="/orders">Перейти к заказам</a></li>
-      <li><a routerLink="/customers">Перейти к покупателям</a></li>
-    </ul>
+
+  <div class="container">
+  <h1>Онлайн магазин электроники</h1>
+  <nav class="menu">
+    <a routerLink="/products"> Перейти к товарам</a>
+    <a routerLink="/statuses"> Перейти к статусам</a>
+    <a routerLink="/orders"> Перейти к заказам</a>
+    <a routerLink="/customers"> Перейти к клиентам</a>
   </nav>
+</div>
+
+  <style>
+    .container {
+  max-width: 600px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 30px;
+  border-radius: 15px;
+  background: #f0f4f8;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu a {
+  display: block;
+  text-decoration: none;
+  background: #1976d2;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  transition: background 0.3s ease;
+}
+
+.menu a:hover {
+  background: #125ba3;
+}
+
+
+  </style>
